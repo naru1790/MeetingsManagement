@@ -56,5 +56,22 @@ namespace Meetings.Data
         {
             return _meetings.Values;
         }
+
+        public Guid? Update(Guid id, Meeting meeting)
+        {
+            _meetings.TryGetValue(id, out var existingMeeting);
+
+            if (existingMeeting != null)
+            {
+                existingMeeting.Title = meeting.Title;
+                existingMeeting.Description = meeting.Description;
+                existingMeeting.StartTime = meeting.StartTime;
+                existingMeeting.EndTime = meeting.EndTime;
+                existingMeeting.Attendees = meeting.Attendees;
+                existingMeeting.UpdatedAt = DateTime.Now;
+            }
+
+            return existingMeeting?.Id;
+        }
     }
 }

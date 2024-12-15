@@ -8,5 +8,6 @@ namespace Meetings.Domain
         ResponseDto DeleteMeeting(Guid id);
         Meeting GetMeeting(Guid id);
         IEnumerable<Meeting> GetMeetings();
+        ResponseDto UpdateMeeting(Guid id, Meeting meeting);
     }
 }

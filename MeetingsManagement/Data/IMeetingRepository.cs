@@ -8,5 +8,6 @@ namespace Meetings.Data
         IEnumerable<Meeting> GetAll();
         Meeting Get(Guid id);
         Guid? Delete(Guid id);
+        Guid? Update(Guid id, Meeting meeting);
     }
 }

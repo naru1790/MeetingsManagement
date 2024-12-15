@@ -50,21 +50,18 @@ namespace MeetingsManagement.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public IActionResult UpdateMeeting(Guid id, [FromBody] Meeting updatedMeeting)
+        public IActionResult UpdateMeeting(Guid id, [FromBody] UpdateMeetingRequest updatedMeeting)
         {
-            //if (!Meetings.ContainsKey(id))
-            //{
-            //    return NotFound("Meeting not found.");
-            //}
+            var meeting = _mapper.Map<Meeting>(updatedMeeting);
 
-            //if (updatedMeeting.StartTime >= updatedMeeting.EndTime)
-            //{
-            //    return BadRequest("Start time must be earlier than end time.");
-            //}
+            ResponseDto response =  _meetingService.UpdateMeeting(id, meeting);
 
-            //updatedMeeting.Id = id;
-            //Meetings[id] = updatedMeeting;
-            //return Ok("Meeting updated successfully.");
+            if (!response.IsSuccess)
+            {
+                return BadRequest(response.Response);
+            }
+
+            return Ok(response.Response);
         }
 
         [HttpDelete("Delete/{id}")]
@@ -73,9 +70,9 @@ namespace MeetingsManagement.Controllers
            ResponseDto responseDto =  _meetingService.DeleteMeeting(id);
             if (!responseDto.IsSuccess)
             {
-                return NotFound("Meeting not found.");
+                return NotFound(responseDto.Response);
             }
-            return Ok("Meeting deleted successfully.");
+            return Ok(responseDto.Response);
         }
 
     }
