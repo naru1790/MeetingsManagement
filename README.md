@@ -41,3 +41,6 @@ The API will be hosted locally at https://localhost:7075.
 
 # Test the Web API
 Please use the swagger URL for API documentation and try the endpoints: https://localhost:7075/swagger/index.html
+
+<img width="1175" alt="image" src="https://github.com/user-attachments/assets/b3caa4bd-ea75-4e68-a87a-607e5253d758" />
+
