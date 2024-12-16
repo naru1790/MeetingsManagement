@@ -9,10 +9,12 @@ namespace Meetings.Domain
     public class MeetingService : IMeetingService
     {
         private readonly IMeetingRepository _meetingRepository;
+        private readonly ITaskRepository _taskRepository;
 
-        public MeetingService(IMeetingRepository meetingRepository)
+        public MeetingService(IMeetingRepository meetingRepository, ITaskRepository taskRepository)
         {
             _meetingRepository = meetingRepository;
+            _taskRepository = taskRepository;
         }
         public ResponseDto CreateMeeting(Meeting meeting)
         {
@@ -68,8 +70,7 @@ namespace Meetings.Domain
 
         public Meeting? GetMeeting(Guid id)
         {
-            var meeting = _meetingRepository.Get(id);
-            return meeting == null || !meeting.IsActive ? null : meeting;
+            return _meetingRepository.Get(id);
         }
 
         public IEnumerable<Meeting> GetMeetings(PaginatedRequest request)
@@ -81,7 +82,6 @@ namespace Meetings.Domain
 
             return _meetingRepository
                 .GetAll()
-                .Where(m => m.IsActive)
                 .Skip(request.PageIndex * request.PageCount)
                 .Take(request.PageCount);
         }
@@ -111,6 +111,34 @@ namespace Meetings.Domain
             return meetingId != null
                 ? new ResponseDto { IsSuccess = true, Response = "Meeting Updated Successfully!" }
                 : new ResponseDto { Response = "Meeting not found." };
+        }
+
+        public IEnumerable<MeetingSummary> GetMeetingReport(DateTime start, DateTime end)
+        {
+            if (start >= end)
+            {
+                return Enumerable.Empty<MeetingSummary>();
+            }
+
+            return from meeting in _meetingRepository.GetAll()
+                   join task in _taskRepository.GetAll()
+                       on meeting.Id equals task.MeetingId into taskGroup
+                   where meeting.IsActive
+                       && meeting.StartTime >= start && meeting.StartTime <= end // assuming we are only looking for the starting within a time period.
+                   select new MeetingSummary
+                   {
+                       Title = meeting.Title,
+                       Description = meeting.Description,
+                       Tasks = taskGroup?.Where(t => t.IsActive)
+                                           .Select(t => new TaskSummary
+                                           {
+                                               Title = t.Title,
+                                               Description = t.Description,
+                                               Status = t.Status
+                                           })
+                                           .ToList()
+                   };
+
         }
     }
 }

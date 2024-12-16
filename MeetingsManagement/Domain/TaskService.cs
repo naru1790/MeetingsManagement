@@ -57,7 +57,6 @@ namespace Meetings.Domain
             }
 
             return _taskRepository.GetByMeetingId(meetingId)
-                .Where(t => t.IsActive)
                 .Skip(request.PageCount * request.PageIndex)
                 .Take(request.PageCount);
         }

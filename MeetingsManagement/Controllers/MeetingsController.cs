@@ -74,5 +74,11 @@ namespace MeetingsManagement.Controllers
             }
             return Ok(responseDto.Response);
         }
+
+        [HttpGet("Report")]
+        public IActionResult GetReport([FromQuery] DateTime start, [FromQuery] DateTime end)
+        {
+            return Ok(_meetingService.GetMeetingReport(start, end));
+        }
     }
 }

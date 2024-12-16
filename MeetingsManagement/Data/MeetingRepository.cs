@@ -59,12 +59,17 @@ namespace Meetings.Data
         {
             _meetings.TryGetValue(id, out var meeting);
 
-            return meeting;
+            if(meeting != null && meeting.IsActive)
+            {
+                return meeting;
+            }
+
+            return null;
         }
 
         public IEnumerable<Meeting> GetAll()
         {
-            return _meetings.Values;
+            return _meetings.Values.Where(m => m.IsActive);
         }
 
         public Guid? Update(Guid id, Meeting meeting)

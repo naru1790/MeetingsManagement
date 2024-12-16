@@ -66,7 +66,7 @@ namespace Meetings.Data
         public IEnumerable<TaskItem> GetByMeetingId(Guid meetingId)
         {
             return _tasks.Values
-                .Where(t => t.MeetingId == meetingId)
+                .Where(t => t.MeetingId == meetingId && t.IsActive)
                 .ToList();
         }
 
@@ -83,6 +83,11 @@ namespace Meetings.Data
             }
 
             return existingTask?.Id;
+        }
+
+        public IEnumerable<TaskItem> GetAll()
+        {
+            return _tasks.Values.Where(t => t.IsActive).ToList();
         }
     }
 }
