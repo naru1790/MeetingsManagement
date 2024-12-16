@@ -21,7 +21,7 @@ namespace MeetingsManagement.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("Create")]
+        [HttpPost()]
         public IActionResult CreateMeeting([FromBody] CreateMeetingRequest request)
         {
             var meeting = _mapper.Map<Meeting>(request);
@@ -29,7 +29,7 @@ namespace MeetingsManagement.Controllers
             return responseDto.IsSuccess ? Ok(responseDto) : BadRequest(responseDto);
         }
 
-        [HttpGet("Get/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetMeeting(Guid id)
         {
 
@@ -42,14 +42,14 @@ namespace MeetingsManagement.Controllers
             return Ok(meeting);
         }
 
-        [HttpGet("List")]
-        public IActionResult ListMeetings()
+        [HttpGet()]
+        public IActionResult ListMeetings([FromQuery] PaginatedRequest request)
         {
-            var meetings = _meetingService.GetMeetings();
+            var meetings = _meetingService.GetMeetings(request);
             return Ok(meetings);
         }
 
-        [HttpPut("Update/{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateMeeting(Guid id, [FromBody] UpdateMeetingRequest updatedMeeting)
         {
             var meeting = _mapper.Map<Meeting>(updatedMeeting);
@@ -64,16 +64,15 @@ namespace MeetingsManagement.Controllers
             return Ok(response.Response);
         }
 
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteMeeting(Guid id)
         {
-           ResponseDto responseDto =  _meetingService.DeleteMeeting(id);
+            ResponseDto responseDto =  _meetingService.DeleteMeeting(id);
             if (!responseDto.IsSuccess)
             {
                 return NotFound(responseDto.Response);
             }
             return Ok(responseDto.Response);
         }
-
     }
 }

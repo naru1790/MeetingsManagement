@@ -12,7 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IMeetingService, MeetingService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddSingleton<IMeetingRepository, MeetingRepository>();
+builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
 
 var app = builder.Build();
 

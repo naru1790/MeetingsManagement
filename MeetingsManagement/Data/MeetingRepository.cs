@@ -5,6 +5,15 @@ namespace Meetings.Data
     public class MeetingRepository : IMeetingRepository
     {
         private readonly Dictionary<Guid, Meeting> _meetings = new();
+        private readonly Guid[] _guids =
+        [
+            new("28cd5bb3-f90e-4217-ab73-678e5160347c"),
+            new("cc2b5b17-2c03-4561-aea4-7da59e4d010b"),
+            new("5133a319-46a0-40fa-97c5-9ed3e236c5d6"),
+            new("f1f0cc3b-de0a-4e95-bfb5-b04e52831a7b"),
+            new("01734672-9278-4ae6-b234-2144f50f684a"),
+
+        ];
 
         public MeetingRepository()
         {
@@ -12,6 +21,7 @@ namespace Meetings.Data
             {
                 var meeting = new Meeting
                 {
+                    Id = _guids[i],
                     Description = $"Meeting Description {i}",
                     Title = $"Meeting Title {i}",
                     IsActive = true,

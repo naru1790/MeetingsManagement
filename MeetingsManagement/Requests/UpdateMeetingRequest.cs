@@ -2,7 +2,7 @@
 
 namespace Meetings.Requests
 {
-    public class CreateMeetingRequest
+    public class UpdateMeetingRequest
     {
         [Required]
         public string Title { get; set; }
@@ -12,11 +12,5 @@ namespace Meetings.Requests
         public DateTime EndTime { get; set; }
         [Required]
         public List<string> Attendees { get; set; }
-    }
-
-    public class PaginatedRequest
-    {
-        public int PageIndex { get; set; }
-        public int PageCount { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Meetings.Data;
 using Meetings.Dtos;
+using Meetings.Requests;
 
 using System.Text.RegularExpressions;
 
@@ -15,11 +16,25 @@ namespace Meetings.Domain
         }
         public ResponseDto CreateMeeting(Meeting meeting)
         {
-            ResponseDto response = new ResponseDto();
+            // use fluent validation instead of manual code.
+            if (IsInvalidTimings(meeting))
+            {
+                return new ResponseDto
+                {
+                    Response = "Start time must be earlier than end time."
+                };
+            }
 
-            ValidateMeetingTimings(meeting, response);
-
-            ValidateEmail(meeting, response);
+            foreach (var attendee in meeting.Attendees)
+            {
+                if (IsInvalidEmail(attendee))
+                {
+                    return new ResponseDto
+                    {
+                        Response = "Invalid Attendee email."
+                    };
+                }
+            }
 
             _meetingRepository.Add(meeting);
 
@@ -31,30 +46,16 @@ namespace Meetings.Domain
             };
         }
 
-        private static void ValidateEmail(Meeting meeting, ResponseDto response)
+        private static bool IsInvalidEmail(string attendee)
         {
             string validEmail = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-            foreach (var attendee in meeting.Attendees)
-            {
-                if (string.IsNullOrWhiteSpace(attendee) || !Regex.IsMatch(attendee, validEmail))
-                {
-                    response = new ResponseDto
-                    {
-                        Response = "Invalid Attendee email."
-                    };
-                }
-            }
+
+            return string.IsNullOrWhiteSpace(attendee) || !Regex.IsMatch(attendee, validEmail);
         }
 
-        private static void ValidateMeetingTimings(Meeting meeting, ResponseDto response)
+        private static bool IsInvalidTimings(Meeting meeting)
         {
-            if (meeting.StartTime >= meeting.EndTime)
-            {
-                response = new ResponseDto
-                {
-                    Response = "Start time must be earlier than end time."
-                };
-            }
+            return meeting.StartTime >= meeting.EndTime;
         }
 
         public ResponseDto DeleteMeeting(Guid id)
@@ -71,14 +72,41 @@ namespace Meetings.Domain
             return meeting == null || !meeting.IsActive ? null : meeting;
         }
 
-        public IEnumerable<Meeting> GetMeetings()
+        public IEnumerable<Meeting> GetMeetings(PaginatedRequest request)
         {
-            return _meetingRepository.GetAll().Where(m => m.IsActive);
+            if (--request.PageIndex < 0)
+            {
+                request.PageIndex = 0;
+            }
+
+            return _meetingRepository
+                .GetAll()
+                .Where(m => m.IsActive)
+                .Skip(request.PageIndex * request.PageCount)
+                .Take(request.PageCount);
         }
 
         public ResponseDto UpdateMeeting(Guid id, Meeting meeting)
         {
-            
+            if (IsInvalidTimings(meeting))
+            {
+                return new ResponseDto
+                {
+                    Response = "Start time must be earlier than end time."
+                };
+            }
+
+            foreach (var attendee in meeting.Attendees)
+            {
+                if (IsInvalidEmail(attendee))
+                {
+                    return new ResponseDto
+                    {
+                        Response = "Invalid Attendee email."
+                    };
+                }
+            }
+
             Guid? meetingId = _meetingRepository.Update(id, meeting);
             return meetingId != null
                 ? new ResponseDto { IsSuccess = true, Response = "Meeting Updated Successfully!" }
