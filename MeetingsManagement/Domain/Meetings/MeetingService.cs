@@ -1,10 +1,13 @@
-﻿using Meetings.Data;
-using Meetings.Dtos;
-using Meetings.Requests;
+﻿using MeetingsManagement.Data.Meetings;
+using MeetingsManagement.Data.Tasks;
+using MeetingsManagement.Dtos;
+using MeetingsManagement.Dtos.Meetings;
+using MeetingsManagement.Dtos.Tasks;
+using MeetingsManagement.Requests.Meetings;
 
 using System.Text.RegularExpressions;
 
-namespace Meetings.Domain
+namespace MeetingsManagement.Domain.Meetings
 {
     public class MeetingService : IMeetingService
     {

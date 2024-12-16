@@ -1,8 +1,9 @@
-﻿using Meetings.Data;
-using Meetings.Dtos;
-using Meetings.Requests;
+﻿using MeetingsManagement.Data.Tasks;
+using MeetingsManagement.Dtos;
+using MeetingsManagement.Dtos.Tasks;
+using MeetingsManagement.Requests.Meetings;
 
-namespace Meetings.Domain
+namespace MeetingsManagement.Domain.Tasks
 {
     public class TaskService : ITaskService
     {
@@ -17,7 +18,7 @@ namespace Meetings.Domain
         {
             ResponseDto response = new ResponseDto();
 
-            if(task.DueDate <  DateTime.Now)
+            if (task.DueDate < DateTime.Now)
             {
                 return new ResponseDto
                 {
@@ -46,12 +47,12 @@ namespace Meetings.Domain
 
         public IEnumerable<TaskItem> GetTasksByMeetingId(Guid meetingId, PaginatedRequest request)
         {
-            if(meetingId == default)
+            if (meetingId == default)
             {
                 return Enumerable.Empty<TaskItem>();
             }
 
-            if(--request.PageIndex < 0)
+            if (--request.PageIndex < 0)
             {
                 request.PageIndex = 0;
             }

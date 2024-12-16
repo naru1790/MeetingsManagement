@@ -1,6 +1,6 @@
-﻿using Meetings.Dtos;
+﻿using MeetingsManagement.Dtos.Tasks;
 
-namespace Meetings.Data
+namespace MeetingsManagement.Data.Tasks
 {
     public class TaskRepository : ITaskRepository
     {

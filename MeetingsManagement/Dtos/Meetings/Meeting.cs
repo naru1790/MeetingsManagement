@@ -1,4 +1,4 @@
-﻿namespace Meetings.Dtos
+﻿namespace MeetingsManagement.Dtos.Meetings
 {
     public class Meeting
     {

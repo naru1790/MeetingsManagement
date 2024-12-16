@@ -1,7 +1,8 @@
-﻿using Meetings.Dtos;
-using Meetings.Requests;
+﻿using MeetingsManagement.Dtos;
+using MeetingsManagement.Dtos.Meetings;
+using MeetingsManagement.Requests.Meetings;
 
-namespace Meetings.Domain
+namespace MeetingsManagement.Domain.Meetings
 {
     public interface IMeetingService
     {

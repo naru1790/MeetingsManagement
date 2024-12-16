@@ -1,5 +1,7 @@
-using Meetings.Data;
-using Meetings.Domain;
+using MeetingsManagement.Data.Meetings;
+using MeetingsManagement.Data.Tasks;
+using MeetingsManagement.Domain.Meetings;
+using MeetingsManagement.Domain.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 

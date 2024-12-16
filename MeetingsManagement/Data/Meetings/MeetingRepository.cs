@@ -1,6 +1,7 @@
-﻿using Meetings.Dtos;
+﻿using MeetingsManagement.Dtos;
+using MeetingsManagement.Dtos.Meetings;
 
-namespace Meetings.Data
+namespace MeetingsManagement.Data.Meetings
 {
     public class MeetingRepository : IMeetingRepository
     {
@@ -47,7 +48,7 @@ namespace Meetings.Data
         {
             _meetings.TryGetValue(id, out var meeting);
 
-            if(meeting != null)
+            if (meeting != null)
             {
                 meeting.IsActive = false;
             }
@@ -59,7 +60,7 @@ namespace Meetings.Data
         {
             _meetings.TryGetValue(id, out var meeting);
 
-            if(meeting != null && meeting.IsActive)
+            if (meeting != null && meeting.IsActive)
             {
                 return meeting;
             }

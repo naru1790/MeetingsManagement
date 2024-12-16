@@ -1,4 +1,4 @@
-﻿namespace Meetings.Dtos
+﻿namespace MeetingsManagement.Dtos.Tasks
 {
     public class TaskItem
     {
@@ -7,7 +7,7 @@
         public string Description { get; set; }
         public DateTime DueDate { get; set; }
         public Guid MeetingId { get; set; }
-        public string Status { get; set; } 
+        public string Status { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

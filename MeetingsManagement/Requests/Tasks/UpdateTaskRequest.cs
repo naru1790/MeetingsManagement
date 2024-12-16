@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Meetings.Requests
+namespace MeetingsManagement.Requests.Tasks
 {
-    public class CreateTaskRequest
+    public class UpdateTaskRequest
     {
         [Required]
         public string Title { get; set; }
@@ -11,6 +11,8 @@ namespace Meetings.Requests
 
         [Required]
         public DateTime? DueDate { get; set; }
+        [Required]
+        public Guid? MeetingId { get; set; }
         [Required]
         public string Status { get; set; }
     }

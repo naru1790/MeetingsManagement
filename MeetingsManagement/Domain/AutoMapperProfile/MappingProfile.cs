@@ -1,9 +1,11 @@
-﻿namespace Meetings.Domain.AutoMapperProfile
+﻿namespace MeetingsManagement.Domain.AutoMapperProfile
 {
     using AutoMapper;
 
-    using Meetings.Dtos;
-    using Meetings.Requests;
+    using MeetingsManagement.Dtos.Meetings;
+    using MeetingsManagement.Dtos.Tasks;
+    using MeetingsManagement.Requests.Meetings;
+    using MeetingsManagement.Requests.Tasks;
 
     public class MappingProfile : Profile
     {

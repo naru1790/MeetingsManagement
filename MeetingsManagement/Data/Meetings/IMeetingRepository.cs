@@ -1,6 +1,6 @@
-﻿using Meetings.Dtos;
+﻿using MeetingsManagement.Dtos.Meetings;
 
-namespace Meetings.Data
+namespace MeetingsManagement.Data.Meetings
 {
     public interface IMeetingRepository
     {

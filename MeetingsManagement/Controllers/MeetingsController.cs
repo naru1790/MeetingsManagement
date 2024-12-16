@@ -1,8 +1,9 @@
 using AutoMapper;
 
-using Meetings.Domain;
-using Meetings.Dtos;
-using Meetings.Requests;
+using MeetingsManagement.Domain.Meetings;
+using MeetingsManagement.Dtos;
+using MeetingsManagement.Dtos.Meetings;
+using MeetingsManagement.Requests.Meetings;
 
 using Microsoft.AspNetCore.Mvc;
 
